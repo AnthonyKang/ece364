@@ -1,0 +1,12 @@
+#! /bin/bash
+#
+$Author$
+$Date$
+$Revision$
+$HeadURL$
+echo "Enter a command: "
+read answer < /dev/tty
+if [[ $answer == "hello" ]]
+then
+    echo "Hello "
+fi

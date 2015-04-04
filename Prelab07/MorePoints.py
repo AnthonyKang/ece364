@@ -1,0 +1,261 @@
+#! /bin/python
+#$Author: ee364f03 $
+#$Date: 2015-02-26 23:08:19 -0500 (Thu, 26 Feb 2015) $
+#$Revision: 76868 $
+#$HeadURL: svn+ssh://ece364sv@ecegrid-thin1/home/ecegrid/a/ece364sv/svn/S15/students/ee364f03/Prelab07/MorePoints.py $
+import math
+class PointSet:
+
+    def __init__(self, points=set()):
+        self.points = points
+
+    def addPoint(self, p):
+        (self.points).add(p)
+    
+    def count(self):
+        return len(self.points)
+
+    def computeBoundingBox(self):
+        x = []
+        y = []              
+        z = []
+        for point in self.points:
+            x.append(point.x)
+            y.append(point.y)
+            z.append(point.z)
+        return (Point3D(min(x), min(y), min(z)), Point3D(max(x), max(y), max(z)))
+
+
+    def computerNearestNeighbors(self,other):
+        closest = []
+        for point in self.points:
+            nearest = point.nearestPoint(other.points)
+            closest.append(tuple([point,nearest]))
+        return closest
+
+    def print_set(self):
+        for i in self.points:
+            print (i)
+
+    def __add__(self,o):
+        if isinstance(o, Point3D):
+            newPointSet = PointSet(self.points)
+            newPointSet.addPoint(o)
+            return newPointSet
+        if isinstance(o, self.__class__):
+            union_set = (self.points).union(o.points)
+            newPointSet = PointSet(union_set)
+            return newPointSet
+
+    def __sub__(self,o):
+        if isinstance(o, Point3D):
+            (self.points).remove(o)
+            newPointSet = PointSet(self.points)
+            return newPointSet
+        if isinstance(o, self.__class__):
+            diff = self.points - o.points
+            newPointSet = PointSet(diff)
+            return newPointSet
+
+    def __gt__(self,o):
+        if(len(self.points) > len(o.points)):
+            return True
+        else:
+            return False
+
+    def __ge__(self,o):
+        if(len(self.points) >= len(o.points)):
+            return True
+        else:
+            return False
+
+    def __lt__(self,o):
+        if(len(self.points) < len(o.points)):
+            return True
+        else:
+            return False
+
+    def __le__(self,o):
+        if(len(self.points) < len(o.points)):
+            return True
+        else:
+            return False
+
+
+class Point3D:
+
+    def __init__(self, x=0.0, y=0.0, z=0.0):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __str__(self):
+        string = '(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')'
+        return string
+
+    def distFrom(self, other):
+        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2 + (self.z - other.z)**2)
+
+    def nearestPoint(self, points):
+        if(not points):
+            return None
+        closestPoint = list(points)[0]
+        for point in points:
+            if (self.distFrom(point) < self.distFrom(closestPoint)):
+                closestPoint = point
+        return closestPoint
+
+    def clone(self):
+        newPoint = Point3D(self.x, self.y, self.z)
+        return newPoint
+
+    def __add__(self, o):
+        if isinstance(o, self.__class__):
+            newPoint = Point3D(self.x + o.x, self.y + o.y, self.z + o.z)
+            return newPoint
+        if isinstance(o, float):
+            newPoint = Point3D(self.x + o, self.y + o, self.z + o)
+            return newPoint
+
+    def __radd__(self,o):
+        if isinstance(o, float):
+            newPoint = Point3D(self.x + o, self.y + o, self.z + o)
+            return newPoint
+
+    def __sub__(self, o):
+        if isinstance(o, self.__class__):
+            newPoint = Point3D(self.x - o.x, self.y - o.y, self.z - o.z)
+            return newPoint
+        if isinstance(o, float):
+            newPoint = Point3D(self.x - o, self.y - o, self.z -o)
+            return newPoint
+
+    def __neg__(self):
+        newPoint = Point3D(-self.x, -self.y, -self.z)
+        return newPoint
+
+    def __truediv__(self, o):
+        if isinstance(o, float):
+            newPoint = Point3D(self.x / o, self.y / o, self.z / o)
+            return newPoint
+
+    def __mul__(self, o):
+        if isinstance(o, float):
+            newPoint = Point3D(self.x * o, self.y * o, self.z * o)
+            return newPoint
+
+    def __rmul__(self, o):
+        if isinstance(o, float):
+            newPoint = Point3D(self.x * o, self.y * o, self.z * o)
+            return newPoint
+
+    def __eq__(self, o):
+        if (self.x == o.x and self.y == o.y and self.z == o.z):
+            return True
+        else:
+            return False
+
+    def __gt__(self, o):
+        origin = Point3D(0.0,0.0,0.0)
+        if (self.distFrom(origin) > o.distFrom(origin)):
+            return True
+        else:
+            return False
+
+    def __ge__(self, o):
+        origin = Point3D(0.0,0.0,0.0)
+        if (self.distFrom(origin) >= o.distFrom(origin)):
+            return True
+        else:
+            return False
+
+    def __lt__(self, o):
+        origin = Point3D(0.0,0.0,0.0)
+        if (self.distFrom(origin) < o.distFrom(origin)):
+            return True
+        else:
+            return False
+
+    def __le__(self, o):
+        origin = Point3D(0.0,0.0,0.0)
+        if (self.distFrom(origin) <= o.distFrom(origin)):
+            return True
+        else:
+            return False
+
+    def __hash__(self):
+        return id(self)
+
+
+
+def main():
+    print ('hi')
+    myPoint = Point3D(1.0,2.0,3.0)
+    myPoint2 = Point3D(1.0,0.0,0.0)
+    myPoint3 = Point3D(6.0,8,9)
+    myPoint4 = Point3D(6.0,8,9)
+    points = [myPoint2, myPoint3]
+    distance = myPoint.distFrom(myPoint2)
+    print (distance)
+    nearestPoint = myPoint.nearestPoint(points)
+    print (nearestPoint)
+    print (myPoint2)
+    print (myPoint3)
+    newPoint = myPoint.clone()
+    print (newPoint)
+    add = myPoint + myPoint2
+    print (add)
+    floatadd = myPoint + 1.0
+    print (floatadd)
+    revfloatadd = 1.0 + myPoint2
+    print (revfloatadd)
+    sub = myPoint2 - myPoint
+    print (sub)
+    floatsub = myPoint3 - 2.0
+    print (floatsub)
+    print (-myPoint3)
+    mult = myPoint2 * 5.0
+    print (mult)
+    rmult = 2.0 * myPoint3
+    print (rmult)
+    print (myPoint4 == myPoint3)
+    print (myPoint2 > myPoint2)
+    print (myPoint2 >= myPoint2)
+    print (myPoint < myPoint4)
+    print (myPoint4 <= myPoint4)
+    pointsSet = PointSet()
+    pointsSet.addPoint(myPoint4)
+    #print (pointsSet.count())
+    pointsSet.addPoint(myPoint3)
+    #print (pointsSet.count())
+    pointsSet.addPoint(myPoint2)
+    pointsSet.addPoint(myPoint)
+    #print (pointsSet.computerNearestNeighbors(pointsSet))
+    #pointsSet.print_set()
+    myPoint5 = Point3D(2.5, 5.5, 4.5)
+    a = pointsSet + myPoint5
+    a.print_set()
+    myPoint6 = Point3D(1.1,2.2,3.3)
+    pointsSet2 = PointSet()
+    pointsSet2.addPoint(myPoint6)
+    print ("b")
+    b = pointsSet2 + pointsSet
+    b.print_set()
+    print ('sub')
+    c = (a - myPoint2)
+    d = (a - b)
+    #print (c.points)
+    c.print_set()
+    d.print_set()
+    print (a > b)
+    print (a >= b)
+    print (a < b)
+    print (a <= b)
+    print (len(a.points))
+    g = a.computeBoundingBox()
+    for i in g:
+        print (i)
+
+if __name__ == "__main__":
+    main()
+    

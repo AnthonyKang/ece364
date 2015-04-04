@@ -1,0 +1,22 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$Revision$
+#$HeadURL$
+if (($# != 1))
+then
+	echo "Usage: line_num.bash <filename>"
+	exit
+fi
+if [ ! -r $@ ]
+then
+	echo "Cannot read $@"
+	exit
+fi
+linenum=1
+while read line
+do
+	echo "$linenum:$line"
+	((linenum=linenum+1))
+done < $@

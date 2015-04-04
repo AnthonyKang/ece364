@@ -1,0 +1,15 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$Revision$
+#$HeadURL$
+NumParam=$#
+Param_Values=$@
+n=$Param_Values
+#echo "test"
+#echo "$n"
+for((n=n; n >= 0; n--))
+do
+    echo "$n"
+done

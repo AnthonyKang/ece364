@@ -1,0 +1,7 @@
+DFFSR present_val_reg  ( .D(n30), .CLK(clk), .R(n33), .S(1), .Q(stop_bit) )
+  OAI22X1 U2 ( .A(n28), .B(n32), .C(n3), .D(n31), .Y(n15) )
+  OAI22X1 U3 ( .A(n32), .B(n9), .C($bad), .D(n28), .Y(n17) )
+  OAI22X1 U5 ( .A(n32), .B(n8), .C(n1), .D(n9), .Y(n19) )
+  OAI22X1 U7 ( .A(n32), .B(n7), .C(n1), .D(n8), .Y(n21) )
+  INVX2 U33 ( .A(packet_data1), .Y(n31) )
+  INVX2 U34 ( .A(rst), .Y(n33) )

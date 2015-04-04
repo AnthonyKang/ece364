@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<students>
+	<student name= "Alessandra Fredrickson" id= "SNI">
+		<ECE253score="92" grade="A"/>
+		<ECE364score="75" grade="C"/>
+		<ECE437score="43" grade="F"/>
+		<ECE608score="40" grade="F"/>
+		<ECE662score="78" grade="C"/>
+		</student>
+	<student name= "Anjanette Jacob" id= "8LV">
+		<ECE253score="46" grade="F"/>
+		<ECE364score="76" grade="C"/>
+		<ECE437score="44" grade="F"/>
+		<ECE505score="90" grade="A"/>
+		<ECE662score="71" grade="C"/>
+		</student>
+	<student name= "Anjelica Guthrie" id= "LWB">
+		<ECE364score="97" grade="A"/>
+		<ECE437score="58" grade="F"/>
+		<ECE505score="96" grade="A"/>
+		<ECE608score="91" grade="A"/>
+		<ECE662score="93" grade="A"/>
+		</student>
+	<student name= "Aurora Upton" id= "IEN">
+		<ECE337score="79" grade="C"/>
+		<ECE364score="88" grade="B"/>
+		<ECE437score="74" grade="C"/>
+		<ECE505score="67" grade="D"/>
+		<ECE608score="84" grade="B"/>
+		</student>
+	<student name= "Caren Gaddy" id= "JOK">
+		<ECE337score="95" grade="A"/>
+		<ECE437score="51" grade="F"/>
+		<ECE505score="79" grade="C"/>
+		<ECE608score="75" grade="C"/>
+		<ECE662score="76" grade="C"/>
+		</student>
+	<student name= "Carolin Conger" id= "D8T">
+		<ECE253score="69" grade="D"/>
+		<ECE437score="82" grade="B"/>
+		<ECE505score="90" grade="A"/>
+		<ECE608score="52" grade="F"/>
+		<ECE662score="74" grade="C"/>
+		</student>
+	<student name= "Caryn Cleary" id= "DZ4">
+		<ECE253score="58" grade="F"/>
+		<ECE364score="45" grade="F"/>
+		<ECE437score="88" grade="B"/>
+		<ECE608score="83" grade="B"/>
+		<ECE662score="44" grade="F"/>
+		</student>
+	<student name= "Celesta Pepper" id= "GYE">
+		<ECE253score="84" grade="B"/>
+		<ECE364score="60" grade="D"/>
+		<ECE437score="85" grade="B"/>
+		<ECE608score="81" grade="B"/>
+		<ECE662score="80" grade="B"/>
+		</student>
+	<student name= "Chau Scruggs" id= "A6S">
+		<ECE253score="98" grade="A"/>
+		<ECE337score="62" grade="D"/>
+		<ECE505score="69" grade="D"/>
+		<ECE608score="77" grade="C"/>
+		<ECE662score="67" grade="D"/>
+		</student>
+	<student name= "Christin Wesley" id= "L9S">
+		<ECE337score="79" grade="C"/>
+		<ECE437score="82" grade="B"/>
+		<ECE505score="43" grade="F"/>
+		<ECE608score="86" grade="B"/>
+		<ECE662score="41" grade="F"/>
+		</student>
+	<student name= "Effie Julian" id= "2X6">
+		<ECE253score="83" grade="B"/>
+		<ECE364score="95" grade="A"/>
+		<ECE437score="88" grade="B"/>
+		<ECE608score="64" grade="D"/>
+		<ECE662score="60" grade="D"/>
+		</student>
+	<student name= "Evalyn Katz" id= "6A0">
+		<ECE337score="48" grade="F"/>
+		<ECE364score="89" grade="B"/>
+		<ECE437score="66" grade="D"/>
+		<ECE608score="74" grade="C"/>
+		<ECE662score="100" grade="A"/>
+		</student>
+	<student name= "Ezra Southern" id= "39H">
+		<ECE337score="86" grade="B"/>
+		<ECE437score="61" grade="D"/>
+		<ECE505score="44" grade="F"/>
+		<ECE608score="87" grade="B"/>
+		<ECE662score="82" grade="B"/>
+		</student>
+	<student name= "Floretta Mcclanahan" id= "JFT">
+		<ECE253score="40" grade="F"/>
+		<ECE337score="78" grade="C"/>
+		<ECE364score="99" grade="A"/>
+		<ECE437score="74" grade="C"/>
+		<ECE608score="71" grade="C"/>
+		</student>
+	<student name= "Jena Goad" id= "4MV">
+		<ECE253score="57" grade="F"/>
+		<ECE364score="98" grade="A"/>
+		<ECE437score="100" grade="A"/>
+		<ECE505score="75" grade="C"/>
+		<ECE608score="47" grade="F"/>
+		</student>
+	<student name= "Karan Dominguez" id= "GXE">
+		<ECE253score="81" grade="B"/>
+		<ECE364score="87" grade="B"/>
+		<ECE437score="97" grade="A"/>
+		<ECE608score="99" grade="A"/>
+		<ECE662score="74" grade="C"/>
+		</student>
+	<student name= "Karine Dent" id= "PHV">
+		<ECE253score="89" grade="B"/>
+		<ECE337score="87" grade="B"/>
+		<ECE505score="43" grade="F"/>
+		<ECE608score="59" grade="F"/>
+		<ECE662score="79" grade="C"/>
+		</student>
+	<student name= "Kitty Callender" id= "18X">
+		<ECE253score="87" grade="B"/>
+		<ECE364score="51" grade="F"/>
+		<ECE437score="49" grade="F"/>
+		<ECE608score="46" grade="F"/>
+		<ECE662score="64" grade="D"/>
+		</student>
+	<student name= "Lashandra Jude" id= "C9Q">
+		<ECE253score="99" grade="A"/>
+		<ECE364score="42" grade="F"/>
+		<ECE437score="84" grade="B"/>
+		<ECE505score="41" grade="F"/>
+		<ECE608score="54" grade="F"/>
+		</student>
+	<student name= "Laverne Windham" id= "5MD">
+		<ECE253score="61" grade="D"/>
+		<ECE337score="82" grade="B"/>
+		<ECE437score="70" grade="C"/>
+		<ECE608score="68" grade="D"/>
+		<ECE662score="57" grade="F"/>
+		</student>
+	<student name= "Leighann Poston" id= "FMC">
+		<ECE337score="54" grade="F"/>
+		<ECE364score="85" grade="B"/>
+		<ECE437score="56" grade="F"/>
+		<ECE505score="68" grade="D"/>
+		<ECE662score="76" grade="C"/>
+		</student>
+	<student name= "Lorette Hartley" id= "4NB">
+		<ECE253score="50" grade="F"/>
+		<ECE364score="61" grade="D"/>
+		<ECE437score="65" grade="D"/>
+		<ECE505score="67" grade="D"/>
+		<ECE608score="69" grade="D"/>
+		</student>
+	<student name= "Lyndia Mcfall" id= "AHF">
+		<ECE253score="95" grade="A"/>
+		<ECE337score="92" grade="A"/>
+		<ECE505score="64" grade="D"/>
+		<ECE608score="87" grade="B"/>
+		<ECE662score="94" grade="A"/>
+		</student>
+	<student name= "Malia Mott" id= "J1P">
+		<ECE253score="81" grade="B"/>
+		<ECE337score="55" grade="F"/>
+		<ECE364score="88" grade="B"/>
+		<ECE437score="58" grade="F"/>
+		<ECE505score="57" grade="F"/>
+		</student>
+	<student name= "Marlyn Calderon" id= "0YI">
+		<ECE253score="45" grade="F"/>
+		<ECE337score="99" grade="A"/>
+		<ECE505score="67" grade="D"/>
+		<ECE608score="95" grade="A"/>
+		<ECE662score="75" grade="C"/>
+		</student>
+	<student name= "Micheline Sherrill" id= "W79">
+		<ECE253score="84" grade="B"/>
+		<ECE337score="58" grade="F"/>
+		<ECE437score="68" grade="D"/>
+		<ECE505score="62" grade="D"/>
+		<ECE662score="79" grade="C"/>
+		</student>
+	<student name= "Queen Ott" id= "LU8">
+		<ECE253score="93" grade="A"/>
+		<ECE364score="58" grade="F"/>
+		<ECE437score="47" grade="F"/>
+		<ECE505score="45" grade="F"/>
+		<ECE608score="98" grade="A"/>
+		</student>
+	<student name= "Reinaldo Mathias" id= "BTH">
+		<ECE253score="60" grade="D"/>
+		<ECE437score="44" grade="F"/>
+		<ECE505score="92" grade="A"/>
+		<ECE608score="50" grade="F"/>
+		<ECE662score="90" grade="A"/>
+		</student>
+	<student name= "Renata Carlton" id= "534">
+		<ECE253score="91" grade="A"/>
+		<ECE364score="66" grade="D"/>
+		<ECE437score="57" grade="F"/>
+		<ECE505score="97" grade="A"/>
+		<ECE662score="89" grade="B"/>
+		</student>
+	<student name= "Rocky Cruse" id= "I5D">
+		<ECE337score="57" grade="F"/>
+		<ECE364score="51" grade="F"/>
+		<ECE505score="100" grade="A"/>
+		<ECE608score="85" grade="B"/>
+		<ECE662score="81" grade="B"/>
+		</student>
+	<student name= "Sanjuana Roderick" id= "4ZM">
+		<ECE253score="96" grade="A"/>
+		<ECE364score="58" grade="F"/>
+		<ECE437score="76" grade="C"/>
+		<ECE608score="87" grade="B"/>
+		<ECE662score="64" grade="D"/>
+		</student>
+	<student name= "Scot Blackburn" id= "FVG">
+		<ECE337score="50" grade="F"/>
+		<ECE364score="64" grade="D"/>
+		<ECE437score="62" grade="D"/>
+		<ECE608score="99" grade="A"/>
+		<ECE662score="93" grade="A"/>
+		</student>
+	<student name= "Shona Doan" id= "GCI">
+		<ECE253score="71" grade="C"/>
+		<ECE364score="80" grade="B"/>
+		<ECE505score="49" grade="F"/>
+		<ECE608score="63" grade="D"/>
+		<ECE662score="96" grade="A"/>
+		</student>
+	<student name= "Sunny Burris" id= "1Z7">
+		<ECE253score="98" grade="A"/>
+		<ECE337score="92" grade="A"/>
+		<ECE364score="40" grade="F"/>
+		<ECE505score="100" grade="A"/>
+		<ECE662score="69" grade="D"/>
+		</student>
+	<student name= "Tanner Bauer" id= "FP5">
+		<ECE337score="82" grade="B"/>
+		<ECE364score="69" grade="D"/>
+		<ECE437score="55" grade="F"/>
+		<ECE505score="65" grade="D"/>
+		<ECE662score="87" grade="B"/>
+		</student>
+	<student name= "Tiana Ralston" id= "FHS">
+		<ECE253score="74" grade="C"/>
+		<ECE437score="44" grade="F"/>
+		<ECE505score="69" grade="D"/>
+		<ECE608score="71" grade="C"/>
+		<ECE662score="77" grade="C"/>
+		</student>
+	<student name= "Tonisha Strange" id= "ING">
+		<ECE253score="81" grade="B"/>
+		<ECE364score="80" grade="B"/>
+		<ECE505score="97" grade="A"/>
+		<ECE608score="64" grade="D"/>
+		<ECE662score="96" grade="A"/>
+		</student>
+	<student name= "Tonja Beard" id= "GPS">
+		<ECE253score="66" grade="D"/>
+		<ECE337score="79" grade="C"/>
+		<ECE364score="96" grade="A"/>
+		<ECE437score="68" grade="D"/>
+		<ECE608score="52" grade="F"/>
+		</student>
+	<student name= "Travis Lopes" id= "DN2">
+		<ECE253score="82" grade="B"/>
+		<ECE337score="96" grade="A"/>
+		<ECE505score="78" grade="C"/>
+		<ECE608score="46" grade="F"/>
+		<ECE662score="48" grade="F"/>
+		</student>
+	<student name= "Valentine Redmon" id= "NOU">
+		<ECE253score="75" grade="C"/>
+		<ECE337score="64" grade="D"/>
+		<ECE364score="59" grade="F"/>
+		<ECE437score="84" grade="B"/>
+		<ECE608score="95" grade="A"/>
+		</student>
+	<student name= "Veola Mccarty" id= "ZMN">
+		<ECE253score="65" grade="D"/>
+		<ECE364score="72" grade="C"/>
+		<ECE437score="76" grade="C"/>
+		<ECE505score="68" grade="D"/>
+		<ECE608score="62" grade="D"/>
+		</student>
+	<student name= "Yong Meredith" id= "T3I">
+		<ECE253score="56" grade="F"/>
+		<ECE337score="99" grade="A"/>
+		<ECE364score="86" grade="B"/>
+		<ECE608score="76" grade="C"/>
+		<ECE662score="75" grade="C"/>
+		</student>
+</students>

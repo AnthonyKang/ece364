@@ -1,0 +1,35 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$Revision$
+#$HeadURL$
+line=0
+skip=1
+if (( $# < 1 ))
+then
+	echo "Usage: process_temps.bash <input file>"
+	exit 1
+fi
+if [ ! -e $1 ]
+then
+	echo "Error: <filename> is not a readable file."
+	exit 2
+fi
+exec 3< $1
+while read -a line <&3
+do
+	((numservers=${#line[*]}-1))
+	sum=0
+	for ((i = 1; i < ${#line[*]}; i++))
+	do
+		#echo ${line[$i]}
+		((sum=sum+${line[$i]}))
+	done
+	((average=sum/numservers))
+	if (( skip == 0 ))
+	then
+		echo "Average temperature for time ${line[0]} was $average C."
+	fi
+	skip=0
+done

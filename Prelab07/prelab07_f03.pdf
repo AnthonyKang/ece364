@@ -1,0 +1,22 @@
+1. A class defines a an object and its methods and properties while an object is an instantiation of the class.
+2. A member variable belongs to the instantiation of the class while a regualr variable is just part of the file.
+3. member functions beling to the instantiation of the class and regular functions don't belong to a class. Member functions require self argument to represent it belongs to the class. 
+4. Inheritance expresses the one to many.
+5. Constructor initializes the object with or without some initiial properties.
+6. __init__, once.
+7. pointlist = [] 
+for x in range(10):
+	for y in range(10):
+		point = Point2D(x,y)
+		pointlist.append(point)
+8. def print(self, x, y):
+	string = '(' + string(x) + ', ' + string(y) + ')'
+9. class MyPoint2D:
+	def __init__(self, x=0.0, y=0.0):
+		Point2D.__init__(self,x,y)
+
+	def get_min_coord():
+		return self.min_coord()
+
+	def get_max_coord():
+		return self.max_coord()

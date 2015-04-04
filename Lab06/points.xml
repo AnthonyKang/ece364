@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<coordinates>
+   <point>
+      <ID>p1</ID>
+      <X>
+      23.45
+      </X>
+      <Y>-3.09</Y>
+   </point>
+   <point>
+      <Y>+7.0</Y>
+      <ID>p2</ID>
+      <X>
+      15.32
+      </X>
+   </point>
+   <point>
+      <ID>p3</ID>
+      <Y>+5.25</Y>
+      <X>
+      -9.3
+      </X>
+   </point>
+   <point>
+      <X>
+      3.14
+      </X>
+      <Y>-2.707</Y>
+      <ID>p4</ID>
+   </point>
+</coordinates>

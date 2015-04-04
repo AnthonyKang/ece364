@@ -1,0 +1,68 @@
+#$Author$
+#$Date$
+#$Revision$
+#$HeadURL$
+import sys
+import re
+
+
+outputf = open('finalGrades.xml', 'w')
+outputf.write('<?xml version="1.0"?>\n')
+outputf.write('<students>\n')
+with open('rawGrades.xml', 'r') as inputf:
+        lines = [x.strip('\n').strip() for x in inputf.readlines()]
+        students = lines[2:]
+        #print(students)
+
+        # check if tag is alid
+        for student in students:
+            open_id = student[1:4]
+            close_id = student[-4:-1]
+
+            if(open_id == close_id):
+                m = re.findall(r'(\w+)', student[4:-4])
+                if(m):
+                    #print(m)
+                    outputf.write('\t<student name= "' + m[0] + ' ' + m[1] + '" id= "' + open_id + '">\n')
+                    course_list = {}
+                    coursel = []
+                    #grade_list = {}
+                    for i in range(int(len(m[2:])/2)):
+                        course = m[2+i*2]
+                        grade = m[3+i*2]
+                        if(not course_list.get(course)):
+                            course_list.update({course:grade})
+                            coursel.append(course)
+                        else:
+                            if(int(grade) > int(course_list[course])):
+                                course_list.update({course:grade})
+                    #print(coursel)
+                    for course in coursel:
+                        grade = int(course_list[course])
+                        if(grade >= 90):
+                            letter = 'A'
+                        elif(grade >= 80):
+                            letter = 'B'
+                        elif(grade >= 70):
+                            letter = 'C'
+                        elif(grade >= 60):
+                            letter = 'D'
+                        else:
+                            letter = 'F'
+                        outputf.write('\t\t<ECE' + course + 'score="' + course_list[course] + '" grade="' + letter + '"/>\n')
+                    outputf.write('\t\t</student>\n')
+outputf.write('</students>\n')
+
+                    
+
+
+                        
+                    
+
+                    
+                    
+                        
+
+
+
+            

@@ -1,0 +1,55 @@
+import glob
+
+def getFiles():
+    filelist = []
+    for name in glob.glob('files/*'):
+        filelist.append(name)
+    return filelist
+
+def getWordFrequency(filelist):
+    freqDict = {}
+    for files in range(0,len(filelist)):
+        myfile = open(filelist[files], 'r')
+        wordlist = myfile.read().split()
+        wordlist = [word.replace(",","") for word in wordlist]
+        wordlist = [word.replace(".","") for word in wordlist]
+        for word in wordlist:
+            if(not freqDict.get(word)):
+                freqDict.update({word:1})
+            elif(freqDict.get(word)):
+                freqDict[word] = freqDict[word] + 1
+    return freqDict
+
+def getDuplicates(filelist):
+    duplicateDict = {}
+    for files in range(0, len(filelist)):
+        myfile = open(filelist[files], 'r')
+        wordlist = myfile.read().split()
+        wordcount = len(wordlist)
+        if(not duplicateDict.get(wordcount)):
+            duplicateDict.update({wordcount:[filelist[files][6:9]]})
+        elif(duplicateDict.get(wordcount)):
+            duplicateDict[wordcount].append(filelist[files][6:9])
+    duplicateTuple = duplicateDict.items()
+    duplicateDict = {}
+    for groups in duplicateTuple:
+        duplicateDict.update({groups[1][0]:groups})
+
+    return duplicateDict
+
+
+
+
+def main():
+    filelist = getFiles()
+    #print filelist
+    freqDict = getWordFrequency(filelist)
+    #print freqDict
+    #print filelist[0][6:9]
+    #print (["hi","asdf"] == ["hi","asdf"])
+    duplicateDict = getDuplicates(filelist)
+    print duplicateDict
+
+if __name__ == "__main__":
+    main()
+    

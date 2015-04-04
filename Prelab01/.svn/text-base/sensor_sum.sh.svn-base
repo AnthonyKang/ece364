@@ -1,0 +1,27 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$Revision$
+#$HeadURL$
+if (($# != 1))
+then
+	echo "Usage: sensor_sum.sh <filename>"
+	exit
+fi
+if [ ! -r $@ ]
+then
+	echo "$@ is not a readable file"
+	exit
+fi
+linenum=1
+while read line
+do
+	id=$(echo "$line" | cut -d "-" -f 1) 
+	val1=$(echo "$line" | cut -d " " -f 3)
+	val2=$(echo "$line" | cut -d " " -f 5)
+	val3=$(echo "$line" | cut -d " " -f 7)
+	((total=val1+val2+val3))
+	echo "$id $total"
+		
+done < $@
