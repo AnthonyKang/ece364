@@ -19,24 +19,28 @@ class Message:
             if len(self.in_name) != 2:
                 raise ValueError('Need two arguments <filePath> , <messageType> if not using XmlString')
 
+            # if file path is empty
+            if self.in_args[0] == '':
+                raise ValueError('Filepath cannot be empty')
+
             # if there are correct number of arguments for first case of initialization    
             self.filePath = self.in_args[0]
             self.messageType = self.in_args[1]
 
             # if it is a GrayImage
-            if self.messageType is 'GrayImage':
+            if self.messageType == 'GrayImage':
                 self.encoded, self.XmlString = self.file_to_xml(self.in_args[0], self.in_args[1])
 
             # if it is a ColorImage
-            if self.messageType is 'ColorImage':
+            if self.messageType == 'ColorImage':
                 self.encoded, self.encoded_red, self.encoded_green, self.encoded_blue, self.XmlString = self.file_to_xml(self.in_args[0], self.in_args[1])
 
             # if it is Text
-            if self.messageType is 'Text':
+            if self.messageType == 'Text':
                 self.file_to_xml(self.in_args[0], self.in_args[1])
 
             # check to see if messageType is valid
-            if(self.messageType is not 'Text' and self.messageType is not 'GrayImage' and self.messageType is not 'ColorImage'):
+            if(self.messageType != 'Text' and self.messageType != 'GrayImage' and self.messageType != 'ColorImage'):
                 raise ValueError('messageType must be Text, GrayImage, ColorImage')
     
         # if user specified an XmlString, there is only one argument
@@ -61,6 +65,9 @@ class Message:
             m = re.search(r'(size="(\d+)")', self.XmlString)
             if m:
                 self.text_length = len(m.groups()[1])
+
+            self.text_length = len(self.XmlString)
+            print(self.text_length)
                 
 
         # check to see that there is correct number of arguments
@@ -72,16 +79,16 @@ class Message:
     def getMessageSize(self):
         
         # if message is text
-        if self.messageType is 'Text':
+        if self.messageType == 'Text':
             return self.text_length
         else:
             image = Image.open(self.filePath)
             # if message is GrayImage
-            if self.messageType is 'GrayImage':
+            if self.messageType == 'GrayImage':
                 return len(list(image.getdata()))
             
             # if message is ColorImage
-            if self.messageType is 'ColorImage':
+            if self.messageType == 'ColorImage':
                 return len(list(image.getdata())) * 3
 
             return len(self.XmlString)
@@ -90,20 +97,21 @@ class Message:
 
         # if message is not xml
         if self.in_name[0] == 'filePath':
-            if self.encoded == '':
+            if self.XmlString == '':
                 raise Exception("No image data")             
             return self.XmlString
-
+        '''
         # if message is xml
         if self.in_name[0] == 'XmlString':
             if self.XmlString == '':
                 raise Exception("No image data")
             return self.XmlString
+        '''
 
     def saveToImage(self, targetImagePath):
 
         # if the message is an image
-        if self.messageType is not 'Text':                     
+        if self.messageType != 'Text':                     
             if self.messageType == 'GrayImage':
 
                 # if data is coming from an XmlString
@@ -144,6 +152,8 @@ class Message:
                     red_data = list(bytearray(base64.b64decode(self.encoded_red)))
                     green_data = list(bytearray(base64.b64decode(self.encoded_green)))
                     blue_data = list(bytearray(base64.b64decode(self.encoded_blue)))
+
+                    #open('rgb.xml', 'w').write(self.encoded_red+self.encoded_blue+self.encoded_green)
                     
                 # join them together
                 data = []
@@ -154,6 +164,8 @@ class Message:
                 color_image = Image.new('RGB', (int(self.width), int(self.height)))
                 color_image.putdata(data)
                 color_image.save(targetImagePath)
+        else:
+            raise TypeError("saveToImage is for saving images not text")
 
     def rgb_xml_extract(self):
 
@@ -171,6 +183,10 @@ class Message:
 
 
     def saveToTextFile(self, targetTextFilePath):
+
+        # check if the message is a text file
+        if self.messageType != 'Text':
+            raise TypeError("saveToTextFile only saves Text files")
         
         outfile = open(targetTextFilePath, 'w')        
         
@@ -202,9 +218,11 @@ class Message:
         # if the image is text
         if messageType == 'Text':
             input_file = open(filePath, 'r')
-            self.text_bytes = list(bytearray(input_file.read(), 'utf-8'))
+            line = input_file.read()
+            self.text_length = len(line)            
+            self.text_bytes = list(bytearray(line, 'utf-8'))
             self.text64 = base64.b64encode(bytes(self.text_bytes))
-            self.text_length = len(input_file.read())
+            
             self.XmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<message type="' + messageType + '" size="' + str(self.text_length) + '" encrypted="False">\n' + str(self.text64)[2:-1] + '\n</message>'           
             
         # if the image is not text
@@ -239,12 +257,21 @@ class Message:
 
                 # get the red, green , and blue channels
                 self.red, self.green, self.blue = zip(*self.img_bytes)
+
+                print((self.img_bytes)[-1])
+                print(self.red[-1])
+
                 red_bytes64 = str(base64.b64encode(bytes(self.red)))[2:-1]
                 green_bytes64 = str(base64.b64encode(bytes(self.green)))[2:-1]
                 blue_bytes64 = str(base64.b64encode(bytes(self.blue)))[2:-1]
 
+                print(len(red_bytes64))
+
+                img_bytes64 = str(base64.b64encode(bytes(self.red + self.green + self.blue)))[2:-1]
+                print(len(img_bytes64))
+
                 # encoding is in order of red, green, blue
-                img_bytes64 = red_bytes64 + green_bytes64 + blue_bytes64
+                #img_bytes64 = red_bytes64 + green_bytes64 + blue_bytes64
                 xml_string = '<?xml version="1.0" encoding="UTF-8"?>\n<message type="' + messageType + '" size="' + str(right) + ',' + str(lower) + '" encrypted="False">\n' + img_bytes64 + '\n</message>'
                 open('testxml.xml', 'w').write(xml_string)
 
@@ -257,7 +284,10 @@ class Steganography:
         
         # check class initialization variables
         if type(imagePath) is not str or type(direction) is not str:
-            raise ValueError('Usage: Steganography(imagePath = "string of imagePath", direction = "horizontal or vertical")')        
+            raise ValueError('Usage: Steganography(imagePath = "string of imagePath", direction = "horizontal or vertical")')   
+        
+        if (direction != 'horizontal') and (direction != 'vertical'):
+            raise ValueError('Usage: Steganography(imagePath = "string of imagePath", direction = "horizontal or vertical")')            
 
         # initialize class variables
         self.imagePath = imagePath
@@ -267,7 +297,7 @@ class Steganography:
         self.image = Image.open(imagePath)
 
         # check if medium is grayscale
-        if self.image.mode is not 'L':
+        if self.image.mode != 'L':
             raise TypeError('Image needs to be a grayscale image')
 
         # max image size is total number of pixels divided by 8
@@ -375,22 +405,26 @@ class Steganography:
             return None      
 
 def main():
-    myMessage = Message(filePath = "Phase1_tests/files/bridge_dog_h.png", messageType = "GrayImage")
-    print(myMessage.getMessageSize())
-    #myMessage3 = Message(filePath = "Phase1_tests/files/full.txt", messageType = "Text")
+    myMessage = Message(filePath = "Phase1_tests/files/sunflower.png", messageType = "ColorImage")
+
+    #print(myMessage.getMessageSize())
+    #myMessage3 = Message(filePath = "", messageType = "Text")
     #myMessage3.saveToTextFile('test_text_save.xml')
     #myMessage.getMessageSize()
-    #myMessage.getXmlString()
+    #xml = myMessage.getXmlString()
+    #open('suntest.xml', 'w').write(xml)
     #myMessage = Message(filePath = "Phase1_tests/files/bridge.png", messageType = "GrayImage")
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<message type="Text" size="890" encrypted="False">TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4=\n</message>'
-    myMessage2 = Message(XmlString = xml)
+    #xml = '<?xml version="1.0" encoding="UTF-8"?>\n<message type="Text" size="890" encrypted="False">TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4=\n</message>'
+    #myMessage2 = Message(XmlString = xml)
     #print(myMessage.getXmlString())
-    myMessage.saveToImage('saved.png')
-    mySteg = Steganography('Phase1_tests/files/lena_full_h.png', 'horizontal')
-    #mySteg.embedMessageInMedium(myMessage3, 'testimageembed.png')
-    myMessage4 = mySteg.extractMessageFromMedium()
+    #myMessage.saveToImage('saved.png')
+    myMessage = Message(filePath = 'Phase1_tests/files/small.txt', messageType = 'Text')
+    open('textembed.xml', 'w').write(myMessage.XmlString)
+    mySteg = Steganography('Phase1_tests/files/mona.png')
+    mySteg.embedMessageInMedium(myMessage, 'testimageembed.png')
+    #myMessage4 = mySteg.extractMessageFromMedium()
     #print(myMessage4.XmlString)
-    myMessage4.saveToTarget('test_extract_text.xml')
+    #myMessage4.saveToTarget('test_extract_text.xml')
     
 
 if __name__ == "__main__":
