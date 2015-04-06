@@ -5,6 +5,7 @@ import re
 class Message:
 
     def __init__(self, **kwargs):
+
         self.in_args = []
         self.in_name = []
 
@@ -63,7 +64,6 @@ class Message:
                 
 
         # check to see that there is correct number of arguments
-        #print(self.in_name[0])
         if len(self.in_name) > 2 or len(self.in_name) < 1 or (self.in_name[0] != 'XmlString' and self.in_name[0] != 'filePath'):
             raise ValueError("Usage: Message('filePath = <path>, messageType = <Text, GrayImage or ColorImage>') or Message('XmlString = <xmlstring>')")
 
@@ -87,6 +87,7 @@ class Message:
             return len(self.XmlString)
 
     def getXmlString(self):
+
         # if message is not xml
         if self.in_name[0] == 'filePath':
             if self.encoded == '':
@@ -100,48 +101,44 @@ class Message:
             return self.XmlString
 
     def saveToImage(self, targetImagePath):
+
         # if the message is an image
         if self.messageType is not 'Text':                     
             if self.messageType == 'GrayImage':
-                #print(base64.b64decode(self.encoded))
+
+                # if data is coming from an XmlString
                 if self.in_name[0] == 'XmlString':
+                    
+                    # match the xml string part of the entire string
                     m = re.match(r'(.*\n.*\n(.*)\n</message>)', self.XmlString)
                     
+                    # get just the data between the message tags
                     data = base64.b64decode(m.groups()[1])
-                    #print(data[0:10])                   
-                    #print(len(data))         
+                    
+                    # save the image to a file      
                     gray_image = Image.new('L', (int(self.width), int(self.height)))
-                    #print(len(data))
                     gray_image.putdata(data)
                     gray_image.save(targetImagePath)
+                
                 else:
+
+                    # if data isn't coming from an xml string, then we already have the class variables                    
                     data = base64.b64decode(self.encoded)
-                    '''
-                except:
-                    m = re.match(r'(.*\n.*\n(.*)\n</message>)', self.XmlString)
-                    
-                    data = base64.b64decode(m.groups()[1])
-                    #print(data[0:10])                   
-                    #print(len(data))         
-                    gray_image = Image.new('L', (int(self.width), int(self.height)))
-                    #print(len(data))
-                    gray_image.putdata(data)
+
+                    # save image to a file
+                    gray_image = Image.frombytes('L',(self.width, self.height), data)
+                    gray_image.show()                
                     gray_image.save(targetImagePath)
 
-                    return None
-                    '''
-                #print(data)           
-                    gray_image = Image.frombytes('L',(self.width, self.height), data)
-                    gray_image.show()
-                
-                    gray_image.save(targetImagePath)
             # if the message is a ColorImage, we need to rejoin the bands 
             if self.messageType == 'ColorImage':
 
+                # if data is coming from an XmlString
                 if self.in_name[0] == 'XmlString':
 
                     #extract the bands from the xml
                     red_data, green_data, blue_data = self.rgb_xml_extract()
+
                 else:                
                     # change the individual bands back to integer list
                     red_data = list(bytearray(base64.b64decode(self.encoded_red)))
@@ -153,18 +150,20 @@ class Message:
                 for i in range(len(red_data)):
                     data.append((red_data[i], green_data[i], blue_data[i]))
 
-                #print(data[0:10])
+                # save the image to a file
                 color_image = Image.new('RGB', (int(self.width), int(self.height)))
                 color_image.putdata(data)
-                #color_image = Image.frombytes('RGB' , (self.width, self.length), data)
-                #color_image.show()\
                 color_image.save(targetImagePath)
 
     def rgb_xml_extract(self):
+
+        # get the just the xmlstring substring from the entire bytestring
         m = re.match(r'(.*\n.*\n(.*)\n</message>)', self.XmlString)
+
         if m:
+            
+            # decode and return the byte values of each band
             rgb = list(base64.b64decode(m.groups()[1]))
-            #print(len(rgb)/3)
             r = rgb[:int((len(rgb)/3))]
             g = rgb[int((len(rgb)/3)):int(len(rgb)*2/3)]
             b = rgb[int(len(rgb)*2/3):]
@@ -173,13 +172,12 @@ class Message:
 
     def saveToTextFile(self, targetTextFilePath):
         
-        outfile = open(targetTextFilePath, 'w')
-
+        outfile = open(targetTextFilePath, 'w')        
         
+        # find, parse, and decode the message from the xmlString
         m = re.search(r'(\w+=*\n<)', self.XmlString)
-        #print(m)
-        #print(m.groups()[0][0:-2])
-        #print(str(base64.b64decode((m.groups()[0][0:-2])))[2:-1].split('\\n'))
+
+        # if the message has new lines, write to file each line seperately so it doesn't just write a '\n' character
         output_string = str(base64.b64decode((m.groups()[0][0:-2])))[2:-1].split('\\n')
         if len(output_string) > 1:
             output_string = output_string[:-1]      
@@ -207,11 +205,8 @@ class Message:
             self.text_bytes = list(bytearray(input_file.read(), 'utf-8'))
             self.text64 = base64.b64encode(bytes(self.text_bytes))
             self.text_length = len(input_file.read())
-            #print(self.text64)
-
             self.XmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<message type="' + messageType + '" size="' + str(self.text_length) + '" encrypted="False">\n' + str(self.text64)[2:-1] + '\n</message>'           
-            #open('test_text.xml', 'w').write(self.XmlString)
-
+            
         # if the image is not text
         else:
 
@@ -301,14 +296,11 @@ class Steganography:
                 vertical_bytes = vertical_bytes + medium_bytes[i::self.width]
 
             medium_bytes = vertical_bytes
-
-        #print(len(medium_bytes))
+        
         # initialize variables for loop, j indexes through the message list 
         j = -1
-        n = 0
-        print(message_bytes[0:2])
-        print(medium_bytes[0:8])
-        print(len(message_bytes))
+        n = 0 
+ 
         # set the first bit of each medium byte to be the corresponding bit of the message byte
         # each message byte will modify 8 medium bits
         # loop selects bit of message to check with by ANDing with a mask
@@ -321,27 +313,22 @@ class Steganography:
                 pass
             finally:
                 pass
-
         
-        #print(vertical_bytes[90:100])        
         if self.direction is 'vertical':
             vertical_bytes = medium_bytes
             medium_bytes = []
             for i in range(self.height):
                 medium_bytes = medium_bytes + vertical_bytes[i::self.height]
-        #print(medium_bytes[90:100])
+        
         print(message.messageType)
-
-        #print(medium_bytes[90:100])
-            
+                    
         # set class variable to contain the modified original image
         self.stego_image = medium_bytes
         
         gray_image = Image.new('L', (self.width, self.height))
         gray_image.putdata(medium_bytes)
-        #gray_image.show()
         gray_image.save(targetImagePath)
-        #print(medium_bytes[0:32])
+
 
     def extractMessageFromMedium(self):
         # Extracts the message from the medium
@@ -359,7 +346,7 @@ class Steganography:
 
         # extract message by getting the last bit of each set of 8 bytes and creating the message byte
         extracted_message = []
-        #print(len(self.stego_image))
+
         for i in range(int(len(medium_bytes)/8)):
             message_byte = 0
             message_byte = message_byte + 128 if medium_bytes[i*8] & 1 else message_byte
@@ -371,9 +358,7 @@ class Steganography:
             message_byte = message_byte + 2 if medium_bytes[i*8+6] & 1 else message_byte
             message_byte = message_byte + 1 if medium_bytes[i*8+7] & 1 else message_byte
             extracted_message.append(message_byte)
-        print(len(extracted_message))
-        
-
+       
         # create a string of the extracted bytes
         extracted_message_string = ''.join(chr(byte) for byte in extracted_message)
         
@@ -383,26 +368,13 @@ class Steganography:
         # if the data is valid, return the Message, otherwise return None
         if m:           
             xml_string = m.groups()[0]
-            open('xml_string_test', 'w').write(xml_string)
-            #print(xml_string)
-            #print(xml_string)
-
-            # fuck why did i just do these 3 lines
-            #type_match = re.search(r'(type="(\w+)")', xml_string)
-            #message_type = type_match.groups()[1]
+            open('xml_string_test', 'w').write(xml_string) 
             
             return Message(XmlString = xml_string)
         else:
-            return None
-
-
-
-            
-
-            
+            return None      
 
 def main():
-    #print("hi")
     myMessage = Message(filePath = "Phase1_tests/files/bridge_dog_h.png", messageType = "GrayImage")
     print(myMessage.getMessageSize())
     #myMessage3 = Message(filePath = "Phase1_tests/files/full.txt", messageType = "Text")
@@ -414,12 +386,12 @@ def main():
     myMessage2 = Message(XmlString = xml)
     #print(myMessage.getXmlString())
     myMessage.saveToImage('saved.png')
-    mySteg = Steganography('Phase1_tests/files/nature_sunflower_h.png', 'horizontal')
+    mySteg = Steganography('Phase1_tests/files/lena_full_h.png', 'horizontal')
     #mySteg.embedMessageInMedium(myMessage3, 'testimageembed.png')
     myMessage4 = mySteg.extractMessageFromMedium()
     #print(myMessage4.XmlString)
-    myMessage4.saveToTarget('test_extract_text.png')
-    #print('hi')
+    myMessage4.saveToTarget('test_extract_text.xml')
+    
 
 if __name__ == "__main__":
     main()
